@@ -58,10 +58,16 @@ func _assert_is_owner_or_approved{
     range_check_ptr}(address : felt
 ):
     let (caller) = get_caller_address()
+
     if caller == address:
         return ()
     end
-    let (operator_is_approved) = is_approved_for_all(account=address, operator=caller)
+
+    let (operator_is_approved) = is_approved_for_all(
+        account=address,
+        operator=caller
+    )
     assert operator_is_approved = 1
+    
     return ()
 end
