@@ -349,6 +349,13 @@ func _burn_batch{
     amounts : felt*
 ):
     assert_not_zero(_from)
+
+    # TODO: Modularity
+    let (caller) = get_caller_address()
+    with_attr error_message("ERC1155: called from zero address"):
+        assert_not_zero(caller)
+    end
+    
     assert tokens_id_len = amounts_len
     if tokens_id_len == 0:
         return ()
