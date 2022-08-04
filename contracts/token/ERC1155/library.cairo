@@ -33,8 +33,11 @@ func _batch_transfer_from{
     amounts_len : felt,
     amounts : felt*
 ):
-    assert tokens_id_len = amounts_len
     assert_not_zero(to)
+
+    with_attr error_message("ERC1155: tokens length not equal to passed args"):
+        assert tokens_id_len = amounts_len
+    end
 
     if tokens_id_len == 0:
         return ()
