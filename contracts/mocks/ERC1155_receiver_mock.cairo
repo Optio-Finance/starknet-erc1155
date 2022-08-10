@@ -14,3 +14,20 @@ func supportsInterface(interfaceId : felt) -> (success : felt):
         return (0)
     end
 end
+
+@external
+func onERC1155Received(
+    operator : felt,
+    _from : felt,
+    id : Uint256,
+    value : Uint256,
+    data_len : felt,
+    data : felt*
+) -> (selector : felt):
+    if data_len == 0:
+        return (ON_ERC1155_RECEIVED_SELECTOR)
+    else:
+        return (0)
+    end
+endend
+
