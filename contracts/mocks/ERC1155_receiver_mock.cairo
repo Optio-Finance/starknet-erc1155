@@ -31,3 +31,20 @@ func onERC1155Received(
     end
 endend
 
+@external
+func onERC1155BatchReceived(
+    operator : felt,
+    _from : felt,
+    ids_len : felt,
+    ids : Uint256*,
+    values_len : felt,
+    values : Uint256*,
+    data_len : felt,
+    data : felt*
+) -> (selector : felt):
+    if data_len == 0:
+        return (ON_BATCH_ERC1155_RECEIVED_SELECTOR)
+    else:
+        return (0)
+    end
+end
