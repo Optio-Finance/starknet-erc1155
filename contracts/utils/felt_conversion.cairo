@@ -28,3 +28,13 @@ func _uint_to_felt{
     assert_lt_felt(value.high, 2 ** 123)
     return (value.high * (2 ** 128) + value.low)
 end
+
+func _felt_to_uint{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    value : felt
+) -> (value : Uint256):
+    let (high, low) = split_felt(value)
+    tempvar res : Uint256
+    res.high = high
+    res.low = low
+    return (res)
+end
