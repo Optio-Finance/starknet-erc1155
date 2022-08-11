@@ -40,6 +40,48 @@ func ERC1155_Metadata_initializer{
     return ()
 end
 
+func ERC1155_Metadata_tokenURI{
+    syscall_ptr : felt*,
+    pedersen_ptr : HashBuiltin*,
+    range_check_ptr
+}(
+    token_id : Uint256
+) -> (
+    token_uri_len : felt,
+    token_uri : felt*
+):
+    alloc_locals
+
+    let (local base_token_uri) = alloc()
+    let (local base_token_uri_len) = ERC1155_base_token_uri_len.read()
+
+    _ERC1155_Metadata_baseTokenURI(base_token_uri_len, base_token_uri)
+    let (token_id_ss_len, token_id_ss) = uint256_to_ss(token_id)
+    let (token_uri_temp, token_uri_len_temp) = concat_arr(
+        base_token_uri_len,
+        base_token_uri,
+        token_id_ss_len,
+        token_id_ss,
+    )
+
+    let (ERC1155_base_token_uri_suffix_local) = ERC1155_base_token_uri_suffix.read()
+
+    let (local suffix) = alloc()
+    [suffix] = ERC1155_base_token_uri_suffix_local
+
+    let (token_uri, token_uri_len) = concat_arr(
+        token_uri_len_temp,
+        token_uri_temp,
+        1,
+        suffix,
+    )
+
+    return (
+        token_uri_len=token_uri_len,
+        token_uri=token_uri
+    )
+end
+
 func _ERC1155_Metadata_baseTokenURI{
     syscall_ptr : felt*,
     pedersen_ptr : HashBuiltin*,
